@@ -1,7 +1,10 @@
-#vue-element-admin
+# vue-element-admin
 
 vue-element-admin精简版，适合新建空项目使用，只保留一个登录页面和一个Demo页面
 
+## Environment
+
+`Node >= 6`
 
 ## 开发
 
@@ -50,8 +53,16 @@ npm run lint
 npm run lint -- --fix
 ```
 
-更多信息请参考 [使用文档](https://panjiachen.github.io/vue-element-admin-site/zh/)
 
+## Document
+
+[Vue.js](https://cn.vuejs.org/v2/guide/)  
+[Element UI](https://element.eleme.cn/#/zh-CN/component/layout)  
+[Vue Router](https://router.vuejs.org/zh/guide/)  
+[Vuex](https://vuex.vuejs.org/zh/guide/)  
+[Echarts](https://echarts.apache.org/zh/tutorial.html)  
+[Axios](http://www.axios-js.com/zh-cn/docs/)  
+[vue-element-admin](https://panjiachen.gitee.io/vue-element-admin-site/zh/guide/)
 
 ## Browsers support
 
@@ -60,3 +71,6 @@ Modern browsers and Internet Explorer 10+.
 | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/edge/edge_48x48.png" alt="IE / Edge" width="24px" height="24px" />](https://godban.github.io/browsers-support-badges/)</br>IE / Edge | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/firefox/firefox_48x48.png" alt="Firefox" width="24px" height="24px" />](https://godban.github.io/browsers-support-badges/)</br>Firefox | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/chrome/chrome_48x48.png" alt="Chrome" width="24px" height="24px" />](https://godban.github.io/browsers-support-badges/)</br>Chrome | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/safari/safari_48x48.png" alt="Safari" width="24px" height="24px" />](https://godban.github.io/browsers-support-badges/)</br>Safari |
 | --------- | --------- | --------- | --------- |
 | IE10, IE11, Edge | last 2 versions | last 2 versions | last 2 versions |
+
+
+邠心工作室@2022
