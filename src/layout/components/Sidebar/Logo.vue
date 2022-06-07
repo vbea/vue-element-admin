@@ -1,17 +1,18 @@
 <template>
   <div class="sidebar-logo-container">
     <router-link v-if="!collapse" class="sidebar-logo-link" to="/">
-      <img src="@/assets/sidebar_logo.png" class="sidebar-logo" />
+      <img src="@/assets/sidebar_logo.png" class="sidebar-logo" v-if="hasLogo"/>
       <span class="title title1">Welcome to</span>
       <span class="title bold">Admin</span>
     </router-link>
-    <router-link v-else class="sidebar-logo-link" to="/">
+    <router-link v-else-if="hasLogo" class="sidebar-logo-link" to="/">
       <img src="@/assets/sidebar_logo.png" class="sidebar-logo" />
     </router-link>
   </div>
 </template>
 
 <script>
+import settings from '@/settings'
 export default {
   name: 'SidebarLogo',
   props: {
@@ -21,7 +22,9 @@ export default {
     },
   },
   data() {
-    return {}
+    return {
+      hasLogo: settings.sidebarLogo
+    }
   },
 }
 </script>

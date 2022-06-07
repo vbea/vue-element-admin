@@ -101,7 +101,7 @@ export default {
   },
   methods: {
     onClickLoginButton() {
-
+      this.$router.push({path: '/dashboard'})
     }
   },
 }
