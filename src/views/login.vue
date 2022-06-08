@@ -5,7 +5,7 @@
         <div class="form-content">
           <img class="img-logo" src="@/assets/logo.png" />
           <div class="greetings">
-            Welcome to VueAdmin
+            Welcome to Vue Admin
           </div>
           <el-form ref="loginForm" :model="loginForm" :rules="loginRules">
             <el-form-item label="Email" prop="email">
@@ -38,8 +38,8 @@
 </template>
 
 <script>
+import store from '@/store'
 import { validEmail } from '@/utils/validate'
-
 export default {
   name: 'Login',
   data() {
@@ -61,7 +61,7 @@ export default {
       redirect: undefined,
       otherQuery: undefined,
       loginForm: {
-        email: '',
+        email: 'test@email.com',
         password: '',
       },
       checked: false,
@@ -101,7 +101,30 @@ export default {
   },
   methods: {
     onClickLoginButton() {
-      this.$router.push({path: '/dashboard'})
+      this.$refs.loginForm.validate((valid, errorFields) => {
+        if (valid) {
+          this.login()
+        } else {
+          this.$message({
+            message: errorFields[Object.keys(errorFields)[0]][0].message,
+            type: 'error',
+          })
+        }
+      })
+    },
+    login() {
+      store.dispatch('user/login', this.loginForm)
+      .then(() => {
+        //this.handleRemerberMe()
+        console.log('登录成功');
+        this.$router.push({path: '/dashboard'})
+      })
+      .catch((error) => {
+        this.$message.error(error)
+      })
+      .finally(() => {
+        this.loading = false
+      })
     }
   },
 }
@@ -114,13 +137,14 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #e5e5e5;
+  background-color: #F0F0F0;
 }
 .content {
   display: flex;
   height: 100%;
   height: 600px;
   background-color: white;
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
 }
 .form-container {
   flex: 1;
@@ -151,7 +175,7 @@ export default {
   margin-top: 33px;
   width: 335px;
   height: 50px;
-  background: #ef3340;
+  background: #1867C0;
   border-radius: 2px;
 
   font-family: sans-serif;
