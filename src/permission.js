@@ -38,7 +38,7 @@ router.beforeEach(async (to, _from, next) => {
                   }
                 )
                 .then(() => {
-                  next({ path: '/dashboard', replace: true })
+                  next({ path: '/', replace: true })
                   NProgress.done()
                 })
                 .catch(() => {})

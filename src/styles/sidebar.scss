@@ -69,9 +69,13 @@
       height: 100%;
       width: 100% !important;
     }
+    
+    .el-menu-item {
+      padding-left: 18px !important;
+    }
 
     .el-menu-item.is-active {
-      padding-left: 18px !important;
+      background-color: $menuActiveBg !important;
     }
 
     // menu hover
@@ -94,6 +98,10 @@
       &:hover {
         background-color: $subMenuHover !important;
       }
+    }
+    
+    .el-submenu .el-menu-item.is-active {
+      background-color: $subMenuActiveBg !important;
     }
   }
 
