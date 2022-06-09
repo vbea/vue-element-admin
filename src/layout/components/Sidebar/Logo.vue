@@ -2,7 +2,7 @@
   <div class="sidebar-logo-container">
     <router-link v-if="!collapse" class="sidebar-logo-link" to="/">
       <img src="@/assets/sidebar_logo.png" class="sidebar-logo" v-if="hasLogo"/>
-      <span class="title title1">Welcome to</span>
+      <span class="title">Welcome to</span>
       <span class="title bold">Admin</span>
     </router-link>
     <router-link v-else-if="hasLogo" class="sidebar-logo-link" to="/">
@@ -56,8 +56,8 @@ export default {
     text-overflow: ellipsis;
     overflow: hidden;
     .sidebar-logo {
-      width: 20px;
-      height: 20px;
+      width: 24px;
+      height: 24px;
     }
     .title {
       color: #fff;
@@ -65,15 +65,13 @@ export default {
       height: 20px;
       line-height: 20px;
       font-size: 12px;
+      margin-top: 6px;
       margin-left: 6px;
       white-space: nowrap;
     }
     .bold {
       font-size: 14px;
       font-weight: bold;
-    }
-    .title1 {
-      margin-top: 3px;
     }
   }
 }
