@@ -2,18 +2,22 @@ import apiUser from '@/http/apiUser'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 import router, { asyncRoutes, resetRouter } from '@/router'
 import {
+  getAvatar,
+  getName,
   saveAvatar,
   saveName,
   clearUserInfo,
   saveUserResource,
+  getUserResource
 } from '@/utils/userInfo'
 
 const state = {
   token: getToken(),
-  name: '',
-  avatar: '',
+  name: getName(),
+  avatar: getAvatar(),
   introduction: '',
-  roles: []
+  roles: [],
+  resources: []
 }
 
 const mutations = {
@@ -31,6 +35,9 @@ const mutations = {
   },
   SET_ROLES: (state, roles) => {
     state.roles = roles
+  },
+  SET_RESOURCES(state, { resources }) {
+    state.resources = resources
   }
 }
 
@@ -41,10 +48,10 @@ const actions = {
       apiUser.login(userInfo).then(response => {
         const { data } = response
         setToken(data.token)
-        //saveName('Admin')
-        //saveAvatar(photo)
-        //saveUserResource(asyncRoutes)
-        resolve()
+        commit('SET_TOKEN', data.token)
+        saveUserResource(data.resources)
+        commit('SET_RESOURCES', data.resources)
+        resolve(data)
       }).catch(error => {
         reject(error)
       })
@@ -54,24 +61,25 @@ const actions = {
   // get user info
   getInfo({ commit, state }) {
     return new Promise((resolve, reject) => {
-      getInfo(state.token).then(response => {
+      apiUser.getUserInfo(state.token).then(response => {
         const { data } = response
-
         if (!data) {
           reject('Verification failed, please Login again.')
         }
 
-        const { roles, name, avatar, introduction } = data
+        const { name, avatar } = data
 
         // roles must be a non-empty array
-        if (!roles || roles.length <= 0) {
+        /*if (!roles || roles.length <= 0) {
           reject('getInfo: roles must be a non-null array!')
-        }
+        }*/
 
-        commit('SET_ROLES', roles)
+        //commit('SET_ROLES', roles)
         commit('SET_NAME', name)
         commit('SET_AVATAR', avatar)
-        commit('SET_INTRODUCTION', introduction)
+        saveName(name)
+        saveAvatar(avatar)
+        //commit('SET_INTRODUCTION', introduction)
         resolve(data)
       }).catch(error => {
         reject(error)
@@ -89,7 +97,7 @@ const actions = {
       
       // reset visited views and cached views
       // to fixed https://github.com/PanJiaChen/vue-element-admin/issues/2485
-      dispatch('tagsView/delAllViews', null, { root: true })
+      //dispatch('tagsView/delAllViews', null, { root: true })
 
       resolve()
     })

@@ -42,10 +42,9 @@ import store from '@/store'
 import { validEmail } from '@/utils/validate'
 import router, { constantRoutes, asyncRoutes, resetRouter } from '@/router'
 import {
-  getUserAccount,
-  getUserResource,
-  removeUserAccount,
+  saveName,
   saveUserAccount,
+  getUserResource
 } from '@/utils/userInfo'
 export default {
   name: 'Login',
@@ -121,14 +120,16 @@ export default {
     },
     login() {
       store.dispatch('user/login', this.loginForm)
-      .then(() => {
+      .then((res) => {
         //this.handleRemerberMe()
         console.log('登录成功');
         resetRouter()
-        //const resources = getUserResource()
-        this.$store.dispatch('permission/GENERATE_ROUTES', asyncRoutes).then(() => {
+        const resources = getUserResource()
+        this.$store.dispatch('permission/GENERATE_ROUTES', resources).then((accessRoutes) => {
           console.log('登录成功');
-          //router.addRoutes(accessRoutes)
+          saveUserAccount(JSON.stringify(this.loginForm))
+          this.$store.dispatch('user/getInfo')
+          router.addRoutes(accessRoutes)
           this.$router.push({ path: '/' }); //this.$router.push({path: '/dashboard'})
         })
       })
