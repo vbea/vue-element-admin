@@ -68,7 +68,7 @@ export default {
         cancelButtonText: 'Cancel',
         type: 'warning',
       }).then(async () => {
-        //await this.$store.dispatch('user/logout')
+        await this.$store.dispatch('user/logout')
         this.$router.push(`/login`)
       })
     },

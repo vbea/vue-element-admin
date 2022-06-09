@@ -40,6 +40,13 @@
 <script>
 import store from '@/store'
 import { validEmail } from '@/utils/validate'
+import router, { constantRoutes, asyncRoutes, resetRouter } from '@/router'
+import {
+  getUserAccount,
+  getUserResource,
+  removeUserAccount,
+  saveUserAccount,
+} from '@/utils/userInfo'
 export default {
   name: 'Login',
   data() {
@@ -117,7 +124,13 @@ export default {
       .then(() => {
         //this.handleRemerberMe()
         console.log('登录成功');
-        this.$router.push({path: '/dashboard'})
+        resetRouter()
+        //const resources = getUserResource()
+        this.$store.dispatch('permission/GENERATE_ROUTES', asyncRoutes).then(() => {
+          console.log('登录成功');
+          //router.addRoutes(accessRoutes)
+          this.$router.push({ path: '/' }); //this.$router.push({path: '/dashboard'})
+        })
       })
       .catch((error) => {
         this.$message.error(error)
