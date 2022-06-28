@@ -71,6 +71,7 @@ export default {
             return toPath(params)
         },
         handleLink(item) {
+          try {
             const { redirect, path } = item
             if (redirect) {
                 this.$router.push(redirect).catch((failure) => {
@@ -95,6 +96,9 @@ export default {
                     }
                 })
             }
+          } catch(e) {
+            //console.error(e)
+          }
         },
     },
 }
