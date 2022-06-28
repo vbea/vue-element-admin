@@ -15,7 +15,7 @@
       >
         <sidebar-item
           v-for="(route,index) in permission_routes"
-          :key="index"
+          :key="route.path"
           :item="route"
           :selectedItemIndex="selectedItemIndex"
           :base-path="route.path"
