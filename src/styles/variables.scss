@@ -1,29 +1,31 @@
 // base color
-$blue:#324157;
-$light-blue:#3A71A8;
-$red:#C03639;
-$pink: #E65D6E;
-$green: #30B08F;
-$tiffany: #4AB7BD;
-$yellow:#FEC171;
-$panGreen: #30B08F;
+$blue: #324157;
+$light-blue: #3a71a8;
+$red: #c03639;
+$pink: #e65d6e;
+$green: #30b08f;
+$tiffany: #4ab7bd;
+$yellow: #fec171;
+$panGreen: #30b08f;
 
-// sidebar by 邠心vbe
-$menuText:#333; //菜单文字颜色
-$menuActiveText:#333; //菜单激活的文字颜色
-$subMenuActiveText:#333; //子菜单激活的文字颜色
+// sidebar
+$menuText: #000;
+$menuActiveText: #fff;
+$subMenuActiveText: #000; // https://github.com/ElemeFE/element/issues/12951
 
-$menuTop:#25A9E1; //菜单顶部背景色
-$menuBg:#fff; //菜单背景色
-$menuHover:#EBF1F9; //菜单鼠标选中背景色
-$menuActiveBg:#93c8e1; //菜单激活背景色
+$menuBg: #FFF;
+$menuHover: #909DD8;
 
-$subMenuBg:#e5e5e5; //二级菜单背景色
-$subMenuHover:#EBF1F9; //二级菜单鼠标选中背景色
-$subMenuActiveBg:#93c8e1; //二级菜单激活背景色
+$subMenuBg: #FFF;
+$subMenuHover: #909DD8;
 
-$sideBarWidth: 210px;//菜单宽度
-$navigationBarHeight: 50px;
+$itemActiveBg: #001489;
+$subMenuActiveBg: #FFF;
+
+// size
+$sideBarWidth: 300px;
+$navigationBarHeight: 64px;
+$mainAppMinHeight: calc(100vh - #{$navigationBarHeight});
 
 // the :export directive is the magic sauce for webpack
 // https://www.bluematador.com/blog/how-to-share-variables-between-js-and-sass
@@ -35,8 +37,7 @@ $navigationBarHeight: 50px;
   menuHover: $menuHover;
   subMenuBg: $subMenuBg;
   subMenuHover: $subMenuHover;
-  menuActiveBg: $menuActiveBg;
-  subMenuActiveBg: $subMenuActiveBg;
   sideBarWidth: $sideBarWidth;
   navigationBarHeight: $navigationBarHeight;
+  mainAppMinHeight: $mainAppMinHeight;
 }

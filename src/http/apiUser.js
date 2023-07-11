@@ -1,13 +1,15 @@
 import { post, baseURL } from './http'
+import permission from '../utils/permission'
 
 export default {
   login(params) {
-    console.log('login', params);
+    //console.log('login', params);
     return new Promise((resolve, reject) => {
       const res = {
         data: {
           token: 'TEST-TOKEN',
-          resources: [{resPath: '*'}]
+          userName: "Admin",
+          resources: permission.getTestResourceList()
         }
       }
       resolve(res)

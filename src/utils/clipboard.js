@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import Clipboard from 'clipboard'
+import {write} from 'clipboardy/browser'
 
 function clipboardSuccess() {
   Vue.prototype.$message({
@@ -17,16 +17,12 @@ function clipboardError() {
 }
 
 export default function handleClipboard(text, event) {
-  const clipboard = new Clipboard(event.target, {
+  /*const clipboard = new Clipboard(event.target, {
     text: () => text
-  })
-  clipboard.on('success', () => {
+  })*/
+  write(text).then(res => {
     clipboardSuccess()
-    clipboard.destroy()
-  })
-  clipboard.on('error', () => {
+  }).catch(err => {
     clipboardError()
-    clipboard.destroy()
   })
-  clipboard.onClick(event)
 }

@@ -1,31 +1,28 @@
 <template>
-  <div class="sidebar-logo-container">
-    <router-link v-if="!collapse" class="sidebar-logo-link" to="/">
-      <img src="@/assets/sidebar_logo.png" class="sidebar-logo" v-if="hasLogo"/>
-      <span class="title">Welcome to</span>
-      <span class="title bold">Admin</span>
-    </router-link>
-    <router-link v-else-if="hasLogo" class="sidebar-logo-link" to="/">
-      <img src="@/assets/sidebar_logo.png" class="sidebar-logo" />
+  <div class="sidebar-logo-container" :title="title">
+    <router-link class="sidebar-logo-link" to="/">
+      <img src="../../../assets/logo.png" class="sidebar-logo" v-if="collapse">
+      <img src="../../../assets/sidebar_logo.png" class="sidebar-logo" v-else>
     </router-link>
   </div>
 </template>
 
 <script>
-import settings from '@/settings'
+import settings from '../../../settings.js'
 export default {
   name: 'SidebarLogo',
   props: {
     collapse: {
       type: Boolean,
-      required: true,
-    },
+      required: true
+    }
   },
   data() {
     return {
-      hasLogo: settings.sidebarLogo
+      title: settings.title,
+      logo: '@/icons/logo.png'
     }
-  },
+  }
 }
 </script>
 
@@ -42,37 +39,26 @@ export default {
 .sidebar-logo-container {
   position: relative;
   width: 100%;
-  height: 60px;
-  line-height: 60px;
+  height: 135px;
+  line-height: 135px;
+  background: #fff;
   text-align: center;
   vertical-align: middle;
   overflow: hidden;
+
   & .sidebar-logo-link {
     height: 100%;
     width: 100%;
-    display: flex !important;
-    align-items: center;
-    justify-content: center;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    .sidebar-logo {
-      width: 24px;
-      height: 24px;
+
+    & .sidebar-logo {
+      width: 80%;
+      max-width: 167px;
+      max-height: 52px;
+      object-fit: contain;
+      vertical-align: middle;
     }
-    .title {
-      color: #fff;
-      display: inline-block;
-      height: 20px;
-      line-height: 20px;
-      font-size: 12px;
-      margin-top: 6px;
-      margin-left: 6px;
-      white-space: nowrap;
-    }
-    .bold {
-      font-size: 14px;
-      font-weight: bold;
-    }
+
   }
+
 }
 </style>

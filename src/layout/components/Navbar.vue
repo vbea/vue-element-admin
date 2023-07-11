@@ -1,81 +1,157 @@
 <template>
   <div class="navbar">
-    <div class="hamburger" @click="toggleSideBar">
-      <img src="@/assets/nav/hamburger.png" />
-    </div>
-    <div class="right-menu">
-      <template v-if="device !== 'mobile'">
-        <el-dropdown @command="handleCommand">
-          <div class="right-menu-user">
-            <span class="line"></span>
-            <span class="name">{{ name }}</span>
-            <img class="avatar" src="@/assets/nav/avatar.png" />
+    <hamburger
+      id="hamburger-container"
+      :is-active="sidebar.opened"
+      class="hamburger-container"
+      @toggleClick="toggleSideBar" />
+
+    <breadcrumb
+      id="breadcrumb-container"
+      class="breadcrumb-container" />
+
+    <div
+      class="right-menu"
+      v-show="device !== 'mobile'">
+      <el-dropdown
+        @command="(v) => handleCommand(v)"
+        placement="top-start"
+        trigger="hover">
+        <div class="right-menu-item">
+          <i class="el-icon-user-solid account"></i>
+          <span class="trademarker" v-if="username">
+            Hi, {{username}}
+          </span>
+        </div>
+        <el-dropdown-menu
+          slot="dropdown"
+          class="account-dropdown">
+          <div class="account-dropdown-item">
+            <img
+              class="avatar"
+              src="../../assets/nav/avatar.png"
+            />
+            <div class="flexl">
+              <div class="flexc">
+                <span class="username">{{username}}</span>
+                <span class="role" v-if="role">{{role}}</span>
+              </div>
+              <span class="email"><{{email}}></span>
+            </div>
           </div>
-          <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item command="logout">Log Out</el-dropdown-item>
-          </el-dropdown-menu>
-        </el-dropdown>
-      </template>
+          <el-dropdown-item divided command="logout" style="padding: 5px 20px;">
+            <span>Log Out</span>
+          </el-dropdown-item>
+        </el-dropdown-menu>
+      </el-dropdown>
+      <!-- <div
+        class="right-menu-image"
+        @click="onClickNotificationButton">
+        <i class="el-icon-message"></i>
+      </div> -->
+      <div
+        class="right-menu-image"
+        @click="onClickMessageButton">
+        <i class="el-icon-message-solid"></i>
+      </div>
+      <div
+        class="right-menu-image"
+        @click="logout">
+        <i class="el-icon-switch-button bold"></i>
+      </div>
+    </div>
+    <div
+      class="right-menu"
+      v-show="device == 'mobile'">
+      <el-dropdown
+        class="avatar-container"
+        @command="(v) => handleCommand(v)"
+        trigger="click">
+        <div class="avatar-wrapper">
+          <i class="el-icon-menu"/>
+        </div>
+        <el-dropdown-menu
+          slot="dropdown"
+          class="user-dropdown">
+          <el-dropdown-item command="">
+            <span class="fixed-username">Hi, {{username}}</span>
+          </el-dropdown-item>
+          <el-dropdown-item divided command="onClickMessageButton">
+            <span>Message</span>
+          </el-dropdown-item>
+          <!--el-dropdown-item divided command="onClickNotificationButton">
+            <span>Email</span>
+          </el-dropdown-item-->
+          <el-dropdown-item divided command="logout">
+            <span>Log Out</span>
+          </el-dropdown-item>
+        </el-dropdown-menu>
+      </el-dropdown>
     </div>
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
+import Breadcrumb from '@/components/Breadcrumb'
+import Hamburger from '@/components/Hamburger'
+import {getUserName, getEmail, getRoleName} from '../../utils/auth.js'
 
 export default {
-  data() {
-    return {
-      recongnizeQRCodeDialogVisible: false,
-    }
-  },
   components: {
+    Breadcrumb,
+    Hamburger
   },
   computed: {
-    ...mapGetters(['sidebar', 'avatar', 'device', 'name'])
+    ...mapGetters([
+      'sidebar',
+      'avatar',
+      'device'
+    ])
+  },
+  data() {
+    return {
+      username: 'Admin',
+      email: '',
+      role: ''
+    }
+  },
+  created() {
+    this.username = getUserName()
+    this.email = getEmail()
+    this.role = getRoleName()
   },
   methods: {
-    recongnizeQRCodeSuccess(jsonString) {
-      try {
-        const content = JSON.parse(jsonString)
-        if (content.requestId) {
-          this.$router.push({
-            name: 'requestManagementDetail',
-            query: { id: content.requestId },
-          })
-        }
-        if (content.productId) {
-          this.$router.push({
-            name: 'productManagementAddProduct',
-            query: { productId: content.productId },
-          })
-        }
-      } catch (error) {
-        this.$notify.error(
-          'Please use Product Tag QRCode or Request Tag QRCode'
-        )
-      }
-    },
-    onClickScanQrcodeButton() {
-      this.recongnizeQRCodeDialogVisible = true
-    },
     toggleSideBar() {
       this.$store.dispatch('app/toggleSideBar')
     },
     logout() {
       this.$confirm('Are you sure you want to logout ?', 'Logout', {
-        confirmButtonText: 'Ok',
+        confirmButtonText: 'OK',
         cancelButtonText: 'Cancel',
         type: 'warning',
       }).then(async () => {
-        await this.$store.dispatch('user/logout')
-        this.$router.push(`/login`)
+        const path = this.$router.currentRoute.fullPath
+        //console.log('lougout+path', path);
+        this.$store.dispatch("user/logout").then(res => {
+          this.$router.push({ path: "/login?redirect=" + path});
+        })
+      }).catch(err => {
+        
       })
     },
-    handleCommand(fn) {
-      this[fn]()
+    onClickMessageButton() {
+      this.$router.push({
+        path: "/notification-management/in-app-notification"
+      })
     },
-  },
+    /*onClickNotificationButton() {
+      console.log(' click notification button .............')
+    },*/
+    handleCommand(v) {
+      if (v) this[v]()
+    }
+  }
 }
 </script>
 
@@ -83,23 +159,27 @@ export default {
 @import '../../styles/variables.scss';
 .navbar {
   display: flex;
-  height: 50px;
+  height: $navigationBarHeight;
   overflow-y: hidden;
   position: relative;
   align-items: center;
   flex-wrap: wrap;
   background: #fff;
-  box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
-  .hamburger {
-    padding: 0px 15px;
+  box-shadow: 0 1px 4px rgba(0,21,41,.08);
+
+  .hamburger-container {
+    line-height: calc(#{$navigationBarHeight} - 3px);
+    height: 100%;
+    float: left;
     cursor: pointer;
-    > img {
-      display: inline-block;
-      vertical-align: middle;
-      width: 24px;
-      height: 24px;
+    transition: background .3s;
+    -webkit-tap-highlight-color:transparent;
+
+    &:hover {
+      background: rgba(0, 0, 0, .025)
     }
   }
+
   .breadcrumb-container {
     white-space: nowrap;
   }
@@ -107,6 +187,14 @@ export default {
   .errLog-container {
     display: inline-block;
     vertical-align: top;
+  }
+  
+  .avatar-container {
+    padding-left: 10px;
+    .el-icon-menu {
+      color: #555;
+      font-size: 22px;
+    }
   }
 
   .right-menu {
@@ -117,40 +205,100 @@ export default {
     flex-direction: row;
     position: relative;
     justify-content: flex-end;
-    .qr-scan {
-      margin-right: 20px;
+    .trademarker {
+      padding-left: 5px;
+      font-family: sans-serif;
+      font-style: normal;
+      font-weight: normal;
+      font-size: 15px;
+      text-transform: capitalize;
+      color: #333333;
+    }
+    .sparator {
+      width: 1px;
+      height: 35px;
+      background: #EEEEEE;
     }
 
+    .account {
+      /*background-color: #001489;*/
+      padding: 9px;
+      border-radius: 6px;
+    }
+
+    .right-menu-item {
+      display: flex;
+      color: #555;
+      font-size: 24px;
+      padding: 0 30px;
+      align-items: center;
+      justify-content: center;
+    }
+    
     .right-menu-image {
       cursor: pointer;
-      padding: 8px 30px;
+      color: #888;
+      font-size: 24px;
+      padding: 8px 20px;
       border-left: 1px solid #eee;
-      img {
-        width: 22px;
-        height: 22px;
-      }
-    }
-    &-user {
-      display: flex;
-      align-items: center;
-      .line {
-        border-left: 1px solid #dfe0eb;
-        height: 35px;
-      }
-      .name {
-        margin-left: 14px;
-        margin-right: 16px;
-        font-size: 14px;
-        color: #333;
-        text-transform: capitalize;
-      }
-      .avatar {
-        height: 40px;
-        width: 40px;
-        border-radius: 50%;
-        margin-right: 32px;
+      .bold {
+        font-weight: bold;
       }
     }
   }
 }
+</style>
+<style>
+  .fixed-header {
+    padding-right: 15px;
+    background-color: white;
+  }
+  .fixed-username {
+    color: #333;
+    font-size: 14px;
+    user-select: none;
+    padding-right: 10px;
+    text-transform: capitalize;
+  }
+  .user-dropdown {
+    padding: 0 !important;
+  }
+  .account-dropdown {
+    padding: 0 !important;
+    min-width: 200px;
+  }
+  .account-dropdown-item {
+    display: flex;
+    font-size: 24px;
+    align-items: center;
+    padding: 10px 20px;
+    font-family: sans-serif;
+    font-style: normal;
+    font-weight: normal;
+  }
+  .avatar {
+    width: 50px;
+    height: 50px;
+  }
+  .username {
+    padding-left: 10px;
+    font-size: 16px;
+    text-transform: capitalize;
+    color: #333333;
+    transform: scale(.9);
+  }
+  .email {
+    padding-left: 10px;
+    font-size: 13px;
+    color: #333333;
+    transform: scale(.9);
+  }
+  .role {
+    color: #ccc;
+    font-size: 12px;
+    padding-left: 5px;
+  }
+  .account-dropdown .el-dropdown-menu__item::before {
+    display: none;
+  }
 </style>

@@ -7,11 +7,19 @@ Vue.use(Router)
 export const constantRoutes = [
   {
     path: '/',
-    redirect: '/dashboard'
+    redirect: '/redirect'
+  },
+  {
+    path: '/404',
+    component: () => import('@/views/error-page/404.vue')
   },
   {
     path: '/login',
-    component: () => import('@/views/login')
+    component: () => import('@/views/login/index')
+  },
+  {
+    path: '/redirect',
+    component: () => import('@/views/redirect')
   },
   {
     path: '/dashboard',
@@ -21,7 +29,29 @@ export const constantRoutes = [
         path: '/dashboard',
         component: () => import('@/views/dashboard/index'),
         name: 'Dashboard',
-        meta: { title: 'Dashboard', icon: 'dashboard', affix: true }
+        meta: {
+          title: 'Dashboard',
+          icon: 'dashboard',
+          activeIcon: 'dashboard-active',
+          affix: true,
+        }
+      }
+    ]
+  },
+  {
+    path: '/test',
+    component: Layout,
+    children: [
+      {
+        path: '/test',
+        component: () => import('@/views/dashboard/index'),
+        name: 'test',
+        meta: {
+          title: 'Test',
+          icon: 'dashboard',
+          activeIcon: 'dashboard-active',
+          affix: true,
+        }
       }
     ]
   }

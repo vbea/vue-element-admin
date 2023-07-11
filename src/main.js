@@ -1,28 +1,29 @@
 import Vue from 'vue'
-
-import Cookies from 'js-cookie'
-
-import 'normalize.css/normalize.css' // a modern alternative to CSS resets
-
-import Element from 'element-ui'
-import './styles/element-variables.scss'
-import enLang from 'element-ui/lib/locale/lang/en'// 如果使用中文语言包请默认支持，无需额外引入，请删除该依赖
-
-import '@/styles/index.scss' // global css
-
-import App from './App'
-import store from './store'
+import ElementUI from 'element-ui'
+import App from './App.vue'
 import router from './router'
+import store from '@/store'
 
-import './permission' // permission control
-//import './utils/error-log' // error log
+import 'element-ui/lib/theme-chalk/index.css'
+import '@/styles/index.scss' // global css
+import './icons' // icon
+import './router/permission' // permission control
+import vueWaves from '@/directive/waves'
+import locale from 'element-ui/lib/locale/lang/en'
 
-Vue.use(Element, {
-  size: Cookies.get('size') || 'medium', // set element-ui default size
-  locale: enLang // 如果使用中文，无需设置，请删除
-})
-
-Vue.config.productionTip = false
+Vue.use(ElementUI, { locale })
+Vue.use(vueWaves)
+Vue.prototype.$openRoute = (route, isResult) => {
+  let sharpe = "#"
+  if (route.indexOf("/") !== 0) {
+    sharpe += "/";
+  }
+  if (isResult) {
+    window.open(location.origin + location.pathname + sharpe + route, "_blank", "status=no,location=no,menubar=no,toolbar=no,left=200");
+  } else {
+    window.open(location.origin + location.pathname + sharpe + route);
+  }
+}
 
 new Vue({
   el: '#app',

@@ -1,4 +1,16 @@
+/* 改变主题色变量 */
+$--color-primary: #001489;
+$--color-accent: #A4C834;
+
+/* 改变 icon 字体路径变量，必需 */
+$--font-path: '~element-ui/lib/theme-chalk/fonts';
+
+@import "~element-ui/packages/theme-chalk/src/index";
 // cover some element-ui styles
+
+.el-button.el-button--primary {
+  color: #f0f0f0;
+}
 
 .el-breadcrumb__inner,
 .el-breadcrumb__inner a {
@@ -81,4 +93,9 @@
 // to fix el-date-picker css style
 .el-range-separator {
   box-sizing: content-box;
+}
+
+:export {
+  colorPrimary: $--color-primary;
+  colorAccent: $--color-accent;
 }

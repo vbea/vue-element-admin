@@ -1,53 +1,42 @@
 <template>
   <div v-if="!item.hidden">
     <template
-      v-if="
-        hasOneShowingChild(item.children, item) &&
-        (!onlyOneChild.children || onlyOneChild.noShowingChildren) &&
-        !item.alwaysShow
-      "
-    >
-      <app-link v-if="onlyOneChild.meta" :to="resolvePath(onlyOneChild.path)">
+      v-if="hasOneShowingChild(item.children, item)
+            && (!onlyOneChild.children || onlyOneChild.noShowingChildren)
+            && !item.alwaysShow" >
+      <app-link
+        v-if="onlyOneChild.meta"
+        :to="resolvePath(onlyOneChild.path)">
         <el-menu-item
           :index="resolvePath(onlyOneChild.path)"
-          :class="{ 'submenu-title-noDropdown': !isNest }"
-        >
+          :class="{ 'submenu-title-noDropdown': !isNest }">
           <item
-            :icon="
-              selectedItemIndex === resolvePath(onlyOneChild.path)
-                ? onlyOneChild.meta.activeIcon ||
-                  (item.meta && item.meta.activeIcon) ||
-                  onlyOneChild.meta.icon ||
-                  (item.meta && item.meta.icon)
-                : onlyOneChild.meta.icon || (item.meta && item.meta.icon)
-            "
+            :icon="isSelect(onlyOneChild)" 
             :title="onlyOneChild.meta.title"
+            :additional="onlyOneChild.meta.additional"
           />
         </el-menu-item>
       </app-link>
     </template>
+
     <el-submenu
       v-else
       ref="subMenu"
       :index="resolvePath(item.path)"
-      popper-append-to-body
-    >
+      popper-append-to-body>
       <template slot="title">
         <item
           v-if="item.meta"
-          :icon="
-            item.meta && resolvePath(item.path)
-              ? item.meta.activeIcon || item.meta.icon
-              : item.meta.icon
-          "
+          :icon="isSelect(item)"
           :title="item.meta.title"
-        />
+          :additional="onlyOneChild.meta.additional"/>
       </template>
       <sidebar-item
         v-for="child in item.children"
         :key="child.path"
         :is-nest="true"
         :item="child"
+        :activeMenu="activeMenu"
         :selectedItemIndex="selectedItemIndex"
         :base-path="resolvePath(child.path)"
         class="nest-menu"
@@ -71,17 +60,21 @@ export default {
     // route object
     item: {
       type: Object,
-      required: true,
+      required: true
     },
     isNest: {
       type: Boolean,
-      default: false,
+      default: false
     },
     basePath: {
       type: String,
-      default: '',
+      default: ''
     },
     selectedItemIndex: {
+      type: String,
+      default: '',
+    },
+    activeMenu: {
       type: String,
       default: '',
     },
@@ -94,7 +87,7 @@ export default {
   },
   methods: {
     hasOneShowingChild(children = [], parent) {
-      const showingChildren = children.filter((item) => {
+      const showingChildren = children.filter(item => {
         if (item.hidden) {
           return false
         } else {
@@ -111,15 +104,20 @@ export default {
 
       // Show parent if there are no child router to display
       if (showingChildren.length === 0) {
-        this.onlyOneChild = {
-          ...parent,
-          path: '',
-          noShowingChildren: true,
-        }
+        this.onlyOneChild = { ... parent, path: '', noShowingChildren: true }
         return true
       }
 
       return false
+    },
+    isSelect(child) {
+      const path = this.resolvePath(child.path);
+      //selectedItemIndex === 
+      if (this.activeMenu === path) {
+        return (child.meta.activeIcon || this.item.meta && this.item.meta.activeIcon)
+      } else {
+        return child.meta.icon || (this.item.meta && this.item.meta.icon)
+      }
     },
     resolvePath(routePath) {
       if (isExternal(routePath)) {
@@ -129,7 +127,7 @@ export default {
         return this.basePath
       }
       return path.resolve(this.basePath, routePath)
-    },
-  },
+    }
+  }
 }
 </script>

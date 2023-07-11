@@ -5,8 +5,14 @@
 @import './sidebar.scss';
 @import './btn.scss';
 
+html {
+  height: 100%;
+  box-sizing: border-box;
+}
+
 body {
   height: 100%;
+  margin: 0px;
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
@@ -17,9 +23,23 @@ label {
   font-weight: 700;
 }
 
-html {
-  height: 100%;
-  box-sizing: border-box;
+::-webkit-scrollbar-track-piece { 
+  //滚动条凹槽的颜色，还可以设置边框属性
+  background-color:#f8f8f8; 
+}
+::-webkit-scrollbar {
+  //滚动条的宽度
+  width: 7px;
+  height: 10px;
+}
+::-webkit-scrollbar-thumb {
+  //滚动条的设置
+  border-radius: 30px;
+  background-color: #ccc;
+  background-clip: padding-box;
+}
+::-webkit-scrollbar-thumb:hover {
+  background-color: rgba($--color-primary, 0.5);
 }
 
 #app {
@@ -129,9 +149,9 @@ aside {
   position: relative;
 }
 
-.pagination-container {
+/*.pagination-container {
   margin-top: 30px;
-}
+}*/
 
 .text-center {
   text-align: center
@@ -165,10 +185,17 @@ aside {
 .link-type:focus {
   color: #337ab7;
   cursor: pointer;
+  transition: all .3s;
 
   &:hover {
     color: rgb(32, 160, 255);
+    text-decoration: underline;
   }
+}
+
+.underline {
+  cursor: pointer;
+  text-decoration: underline;
 }
 
 .filter-container {
@@ -188,4 +215,165 @@ aside {
 
 .multiselect--active {
   z-index: 1000 !important;
+}
+
+.center {
+  text-align: center;
+}
+
+.right {
+  text-align: right;
+}
+
+.el-table thead {
+  color: #333;
+  th {
+    background-color: #FFFAEA;
+  }
+}
+
+.el-form-item.flex-item,
+.flex-item {
+  display: flex;
+  align-items: center;
+  .el-form-item__content {
+    flex: 1;
+    margin-left: 0 !important;
+    .el-select {
+      width: 100%;
+    }
+  }
+}
+
+.flex {
+  display: flex;
+  align-items: flex-start !important;
+}
+
+.flexl {
+  display: flex;
+  flex-direction: column !important;
+}
+
+.flexc {
+  display: flex;
+  align-items: center !important;
+}
+
+.flexcc {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.flexcw {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.flexr {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.flexcr {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.flexccr {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+}
+
+.flexcwr {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.flex1 {
+  flex: 1;
+}
+
+.flex2 {
+  flex: 2;
+}
+
+.flex3 {
+  flex: 3;
+}
+
+.el-message-box {
+  width: 100%;
+  max-width: 420px;
+}
+
+.el-button.cancel-button,
+.el-button.el-button--primary.cancel-button {
+  color: #555;
+  background: #FFFFFF;
+  border: 1px solid $--color-primary;
+  box-sizing: border-box;
+  border-radius: 4px;
+  transition: all .3s;
+  span {
+    color: #555;
+  }
+}
+
+.el-button.cancel-button:hover,
+.el-button.el-button--primary.cancel-button:hover {
+  background: #e0e0e0;
+}
+
+.update-by {
+  flex: 1;
+  padding: 10px 0;
+  margin-left: 20px;
+}
+
+.filter-view {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.filter-view > * {
+  margin: 5px;
+}
+.filter-view .el-form-item {
+  margin: 5px !important;
+}
+.filter-flex-button {
+  flex: 1;
+  text-align: right;
+}
+.icon-action {
+  padding: 10px;
+  transform: rotate(90deg);
+}
+.el-dropdown-menu.el-popper {
+  margin-top: 6px;
+}
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus, 
+input:-webkit-autofill:active  {
+  -webkit-box-shadow: 0 0 0 68px white inset;
+}
+
+.el-table thead {
+  color: #000 !important;
+  th {
+    background-color: rgba($--color-primary, 0.2);
+  }
+}
+
+.el-table.no-border:before {
+  height: 0 !important;
 }

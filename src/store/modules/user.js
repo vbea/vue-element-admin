@@ -1,20 +1,21 @@
 import apiUser from '@/http/apiUser'
-import { getToken, setToken, removeToken } from '@/utils/auth'
-import router, { asyncRoutes, resetRouter } from '@/router'
+import router, { resetRouter } from '@/router'
 import {
-  getAvatar,
-  getName,
-  saveAvatar,
-  saveName,
-  clearUserInfo,
-  saveUserResource,
-  getUserResource
-} from '@/utils/userInfo'
+  getToken,
+  setToken,
+  setEmail,
+  removeToken,
+  setAuthRoutes,
+  removeAuthRoutes,
+  setUserName,
+  setRoleName,
+  getUserName
+} from '@/utils/auth'
 
 const state = {
   token: getToken(),
-  name: getName(),
-  avatar: getAvatar(),
+  name: getUserName(),
+  avatar: '',
   introduction: '',
   roles: [],
   resources: []
@@ -36,7 +37,7 @@ const mutations = {
   SET_ROLES: (state, roles) => {
     state.roles = roles
   },
-  SET_RESOURCES(state, { resources }) {
+  SET_RESOURCES: (state, resources) => {
     state.resources = resources
   }
 }
@@ -45,13 +46,25 @@ const actions = {
   // user login
   login({ commit }, userInfo) {
     return new Promise((resolve, reject) => {
-      apiUser.login(userInfo).then(response => {
-        const { data } = response
-        setToken(data.token)
-        commit('SET_TOKEN', data.token)
-        saveUserResource(data.resources)
-        commit('SET_RESOURCES', data.resources)
-        resolve(data)
+      apiUser.login(userInfo).then(res => {
+        if (res.data.token) {
+          setToken(res.data.token)
+          commit('SET_TOKEN', res.data.token)
+          if (res.data.resources) {
+            setAuthRoutes(res.data.resources)
+            commit('SET_RESOURCES', res.data.resources)
+          }
+          setEmail(userInfo.email)
+          if (res.data.userName) {
+            setUserName(res.data.userName)
+          }
+          if (res.data.roleName) {
+            setRoleName(res.data.roleName)
+          }
+          resolve(res)
+        } else {
+          reject(res.message || res.msg)
+        }
       }).catch(error => {
         reject(error)
       })
@@ -61,29 +74,8 @@ const actions = {
   // get user info
   getInfo({ commit, state }) {
     return new Promise((resolve, reject) => {
-      apiUser.getUserInfo(state.token).then(response => {
-        const { data } = response
-        if (!data) {
-          reject('Verification failed, please Login again.')
-        }
-
-        const { name, avatar } = data
-
-        // roles must be a non-empty array
-        /*if (!roles || roles.length <= 0) {
-          reject('getInfo: roles must be a non-null array!')
-        }*/
-
-        //commit('SET_ROLES', roles)
-        commit('SET_NAME', name)
-        commit('SET_AVATAR', avatar)
-        saveName(name)
-        saveAvatar(avatar)
-        //commit('SET_INTRODUCTION', introduction)
-        resolve(data)
-      }).catch(error => {
-        reject(error)
-      })
+      commit('SET_ROLES', ['admin'])
+      resolve({ roles: ['admin'] })
     })
   },
 
@@ -93,12 +85,12 @@ const actions = {
       commit('SET_TOKEN', '')
       commit('SET_ROLES', [])
       removeToken()
+      removeAuthRoutes()
       resetRouter()
       
       // reset visited views and cached views
       // to fixed https://github.com/PanJiaChen/vue-element-admin/issues/2485
-      //dispatch('tagsView/delAllViews', null, { root: true })
-
+      dispatch('tagsView/delAllViews', null, { root: true })
       resolve()
     })
   },

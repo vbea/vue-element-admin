@@ -5,31 +5,36 @@ export default {
   props: {
     icon: {
       type: String,
-      default: '',
+      default: ''
     },
     title: {
       type: String,
-      default: '',
+      default: ''
     },
+    additional: {
+      type: Boolean,
+      default: false
+    }
   },
   render(h, context) {
-    const { icon, title } = context.props
+    const { icon, title, additional } = context.props
     const vnodes = []
     if (icon) {
       if (icon.includes('el-icon')) {
         vnodes.push(<i class={[icon, 'sub-el-icon']} />)
       } else {
-        const img = require('../../../assets/icons/' + icon + '.png')
-        vnodes.push(<img class="menu-icon svg-icon" src={img} />)
-        // vnodes.push(<svg-icon icon-class={icon} />)
+        vnodes.push(<svg-icon icon-class={icon}/>)
+      }
+      if (additional) {
+        vnodes.push(<i class={'menu-icon-additional'}></i>)
       }
     }
 
     if (title) {
-      vnodes.push(<span slot="title">{title}</span>)
+      vnodes.push(<span slot='title'>{(title)}</span>)
     }
     return vnodes
-  },
+  }
 }
 </script>
 
@@ -39,8 +44,19 @@ export default {
   width: 1em;
   height: 1em;
 }
-.menu-icon {
+.menu-icon-additional {
   width: 20px;
   height: 20px;
+  position: absolute;
+}
+.menu-icon-additional::before {
+  width: 10px;
+  height: 10px;
+  right: -2px;
+  bottom: 0;
+  content: " ";
+  border-radius: 10px;
+  position: absolute;
+  background-color: #FFCC2C;
 }
 </style>
