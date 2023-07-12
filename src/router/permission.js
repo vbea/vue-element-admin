@@ -46,7 +46,7 @@ router.beforeEach(async(to, from, next) => {
       next({ path: '/' })
       NProgress.done() // hack: https://github.com/PanJiaChen/vue-element-admin/pull/2939
     } else if (!validPath && whiteList.indexOf(to.path) == -1) {
-      next('/404')
+      next({ path: '/404' })
       NProgress.done()
     } else {
       next();
@@ -86,7 +86,7 @@ router.beforeEach(async(to, from, next) => {
       next()
       NProgress.done()
     } else if (!validPath) {
-      next(hasToken ? '/login' : '/404')
+      next({ path: hasToken ? '/login' : '/404' })
       NProgress.done()
     } else {
       // other pages that do not have permission to access are redirected to the login page.

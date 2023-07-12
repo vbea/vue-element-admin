@@ -26,6 +26,7 @@
       <div class="bullshit">
         <div class="bullshit__oops">OOPS!</div>
         <div class="bullshit__headline">{{ message }}</div>
+        <div class="link-type" style="display: inline-block;" @click="backHome">Back to Home</div>
       </div>
     </div>
   </div>
@@ -39,6 +40,13 @@ export default {
       return "Sorry, you do not have access rights or the url is incorrect. Please contact your administrator!";
     },
   },
+  methods: {
+    backHome() {
+      this.$router.replace({
+        path: "/"
+      })
+    }
+  }
 };
 </script>
 
