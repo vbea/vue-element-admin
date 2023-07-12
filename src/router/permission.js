@@ -79,14 +79,11 @@ router.beforeEach(async(to, from, next) => {
       }*/
     }
   } else {
-    //console.log("权限未通过", to.path);
+    //console.log("权限未通过", to.path, hasToken);
     /* has no token*/
     if (whiteList.indexOf(to.path) !== -1) {
       // in the free login whitelist, go directly
       next()
-      NProgress.done()
-    } else if (!validPath) {
-      next({ path: hasToken ? '/login' : '/404' })
       NProgress.done()
     } else {
       // other pages that do not have permission to access are redirected to the login page.
