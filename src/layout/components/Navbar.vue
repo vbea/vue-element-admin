@@ -15,7 +15,6 @@
       v-show="device !== 'mobile'">
       <el-dropdown
         @command="(v) => handleCommand(v)"
-        placement="top-start"
         trigger="hover">
         <div class="right-menu-item">
           <i class="el-icon-user-solid account"></i>
@@ -27,10 +26,16 @@
           slot="dropdown"
           class="account-dropdown">
           <div class="account-dropdown-item">
+            <avatar
+              :size="42"
+              :lighten="100"
+              :username="username"
+              color="rgba(255,255,255,.9)"
+              v-if="colorfulAvatar"/>
             <img
               class="avatar"
               src="../../assets/nav/avatar.png"
-            />
+              v-else/>
             <div class="flexl">
               <div class="flexc">
                 <span class="username">{{username}}</span>
@@ -68,7 +73,17 @@
         @command="(v) => handleCommand(v)"
         trigger="click">
         <div class="avatar-wrapper">
-          <i class="el-icon-menu"/>
+          <!-- <i class="el-icon-menu"/> -->
+          <avatar
+            :size="42"
+            :lighten="100"
+            :username="username"
+            color="rgba(255,255,255,.9)"
+            v-if="colorfulAvatar"/>
+          <img
+            class="avatar"
+            src="../../assets/nav/avatar.png"
+            v-else/>
         </div>
         <el-dropdown-menu
           slot="dropdown"
@@ -92,6 +107,7 @@
 </template>
 
 <script>
+import Avatar from 'vue-avatar'
 import { mapGetters } from 'vuex'
 import Breadcrumb from '@/components/Breadcrumb'
 import Hamburger from '@/components/Hamburger'
@@ -99,6 +115,7 @@ import {getUserName, getEmail, getRoleName} from '../../utils/auth.js'
 
 export default {
   components: {
+    Avatar,
     Breadcrumb,
     Hamburger
   },
@@ -113,7 +130,8 @@ export default {
     return {
       username: 'Admin',
       email: '',
-      role: ''
+      role: '',
+      colorfulAvatar: true
     }
   },
   created() {
@@ -190,7 +208,7 @@ export default {
   }
   
   .avatar-container {
-    padding-left: 10px;
+    margin-left: 10px;
     .el-icon-menu {
       color: #555;
       font-size: 22px;
@@ -244,6 +262,9 @@ export default {
       .bold {
         font-weight: bold;
       }
+	  &:hover {
+        color: #555;
+      }
     }
   }
 }
@@ -261,7 +282,7 @@ export default {
     text-transform: capitalize;
   }
   .user-dropdown {
-    padding: 0 !important;
+    padding: 5px 0px !important;
   }
   .account-dropdown {
     padding: 0 !important;
@@ -272,13 +293,18 @@ export default {
     font-size: 24px;
     align-items: center;
     padding: 10px 20px;
+    margin-right: 20px;
     font-family: sans-serif;
     font-style: normal;
     font-weight: normal;
   }
   .avatar {
-    width: 50px;
-    height: 50px;
+    width: 45px;
+    height: 45px;
+  }
+  .avatar-wrapper .avatar {
+    width: 42px;
+    height: 42px;
   }
   .username {
     padding-left: 10px;
@@ -288,7 +314,7 @@ export default {
     transform: scale(.9);
   }
   .email {
-    padding-left: 10px;
+    padding-left: 6px;
     font-size: 13px;
     color: #333333;
     transform: scale(.9);
