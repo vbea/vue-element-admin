@@ -8,6 +8,9 @@ $tiffany: #4ab7bd;
 $yellow: #fec171;
 $panGreen: #30b08f;
 
+$navigationBarHeight: 64px;
+$mainAppMinHeight: calc(100vh - #{$navigationBarHeight});
+
 // sidebar
 $menuText: #000;
 $menuActiveText: #fff;
@@ -24,8 +27,7 @@ $subMenuActiveBg: #FFF;
 
 // size
 $sideBarWidth: 300px;
-$navigationBarHeight: 64px;
-$mainAppMinHeight: calc(100vh - #{$navigationBarHeight});
+$buttonText: #FFF;
 
 // the :export directive is the magic sauce for webpack
 // https://www.bluematador.com/blog/how-to-share-variables-between-js-and-sass

@@ -97,3 +97,20 @@
   font-size: 14px;
   border-radius: 4px;
 }
+
+.el-button.el-button--content:not(.is-disabled) {
+  color: #232323;
+}
+
+.el-button.el-button--accent {
+  color: $buttonText;
+  background: $--color-accent;
+  &.is-disabled {
+    color: $buttonText;
+    background-color: rgba($--color-accent, .5);
+  }
+  &:not(.is-disabled):hover {
+    color: $buttonText;
+    background-color: rgba($--color-accent, .7);
+  }
+}

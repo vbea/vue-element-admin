@@ -27,7 +27,7 @@
           class="account-dropdown">
           <div class="account-dropdown-item">
             <avatar
-              :size="42"
+              :size="45"
               :lighten="100"
               :username="username"
               color="rgba(255,255,255,.9)"
@@ -44,8 +44,11 @@
               <span class="email"><{{email}}></span>
             </div>
           </div>
-          <el-dropdown-item divided command="logout" style="padding: 5px 20px;">
-            <span>Log Out</span>
+          <el-dropdown-item
+            divided
+            command="logout"
+            style="padding: 5px 20px;">
+            <span>Log out</span>
           </el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
@@ -98,7 +101,7 @@
             <span>Email</span>
           </el-dropdown-item-->
           <el-dropdown-item divided command="logout">
-            <span>Log Out</span>
+            <span>Log out</span>
           </el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
@@ -144,7 +147,7 @@ export default {
       this.$store.dispatch('app/toggleSideBar')
     },
     logout() {
-      this.$confirm('Are you sure you want to logout ?', 'Logout', {
+      this.$confirm('Are you sure you want to log out?', 'Log out', {
         confirmButtonText: 'OK',
         cancelButtonText: 'Cancel',
         type: 'warning',
@@ -152,6 +155,7 @@ export default {
         const path = this.$router.currentRoute.fullPath
         //console.log('lougout+path', path);
         this.$store.dispatch("user/logout").then(res => {
+          this.$store.commit('permission/SET_ROUTES', []);
           this.$router.push({ path: "/login?redirect=" + path});
         })
       }).catch(err => {
@@ -246,7 +250,7 @@ export default {
 
     .right-menu-item {
       display: flex;
-      color: #555;
+      color: #333;
       font-size: 24px;
       padding: 0 30px;
       align-items: center;
@@ -258,12 +262,13 @@ export default {
       color: #888;
       font-size: 24px;
       padding: 8px 20px;
+      transition: all .4s;
       border-left: 1px solid #eee;
       .bold {
         font-weight: bold;
       }
-	  &:hover {
-        color: #555;
+      &:hover {
+        color: #333;
       }
     }
   }

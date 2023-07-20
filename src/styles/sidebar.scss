@@ -34,6 +34,12 @@
 
     .el-scrollbar__bar.is-vertical {
       right: 0px;
+      .el-scrollbar__thumb {
+        background-color: rgba($--color-primary, 0.3);
+        &:hover {
+          background-color: rgba($--color-primary, 0.6);
+        }
+      }
     }
 
     .el-scrollbar {
