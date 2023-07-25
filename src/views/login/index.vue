@@ -19,6 +19,7 @@
                 </span>
                 <el-input
                   name="email"
+                  ref="username"
                   v-model="loginForm.email"
                   type="text"
                   tabindex="1"
@@ -205,6 +206,7 @@ export default {
       })
     },
     login() {
+      this.loading = true;
       store.dispatch('user/login', this.loginForm).then((res) => {
         //this.handleRemerberMe()
         console.log('登录成功', res);
