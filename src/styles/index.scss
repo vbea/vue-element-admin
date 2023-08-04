@@ -20,7 +20,12 @@ body {
 }
 
 label {
+  color: #333;
   font-weight: 700;
+}
+
+.bold {
+  font-weight: bold;
 }
 
 ::-webkit-scrollbar-track-piece {
@@ -318,8 +323,8 @@ aside {
 .el-button.cancel-button,
 .el-button.el-button--primary.cancel-button {
   color: #555;
-  background: #FFFFFF;
-  border: 1px solid $--color-primary;
+  background: #D0D0D0;
+  border: 1px solid #D0D0D0;
   box-sizing: border-box;
   border-radius: 4px;
   transition: all .3s;
