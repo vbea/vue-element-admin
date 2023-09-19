@@ -4,10 +4,11 @@ import router from '@/router'
 import { getToken } from '@/utils/auth'
 
 export const baseURL = process.env.VUE_APP_BASE_API
+export const apiService = process.env.VUE_APP_API_PREFIX
 //console.log('---CONFIG---', process.env)
 // 设置接口响应时间
 axios.defaults.timeout = 50000
-axios.defaults.baseURL = baseURL + process.env.VUE_APP_API_PREFIX
+axios.defaults.baseURL = baseURL + apiService
 // request interceptor
 axios.interceptors.request.use(
   config => {
@@ -17,7 +18,7 @@ axios.interceptors.request.use(
       // let each request carry token
       // ['X-Token'] is a custom headers key
       // please modify it according to the actual situation
-      config.headers['accessToken'] = getToken()
+      config.headers['Access-Token'] = getToken()
     }
     console.log("======= request config ========= ", config)
     return config
@@ -38,12 +39,14 @@ axios.interceptors.response.use(res => {
   if (res.data.success) {
     return res;
   } else {
-    if (res.data.code == "402") { //Token过期，需要登录
+    if (res.data.code == "402" || res.data.code == "406") { //Token过期，需要登录
       const path = router.currentRoute.fullPath
       //console.log('lougout+path', path);
-      store.dispatch("user/logout").then(res => {
-        router.push({ path: "/login?redirect=" + path});
-      })
+      if (path.indexOf('/login') == -1) {
+        store.dispatch("user/logout").then(res => {
+          router.push({ path: "/login?redirect=" + path});
+        })
+      }
     }
     if (res.data.msg) {
       return Promise.reject(res.data.msg)
