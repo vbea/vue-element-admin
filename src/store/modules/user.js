@@ -55,7 +55,9 @@ const actions = {
             commit('SET_RESOURCES', res.data.resources)
           }
           setEmail(userInfo.email)
-          if (res.data.userName) {
+          if (res.data.name) {
+            setUserName(res.data.name)
+          } else if (res.data.userName) {
             setUserName(res.data.userName)
           }
           if (res.data.roleName) {
