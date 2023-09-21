@@ -1,6 +1,7 @@
 # vue-element-admin
 
-vue-element-admin精简版，适合新建空项目使用，只保留一个登录页面和一个Demo页面
+vue-element-admin精简版，适合新建空项目使用，只保留一个登录页面和一个Demo页面   
+``` by 邠心vbe
 
 ## Environment
 

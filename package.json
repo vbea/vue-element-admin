@@ -2,7 +2,7 @@
   "name": "vue-element-admin",
   "version": "1.0.0",
   "description": "A Vue.js project",
-  "author": "vbe",
+  "author": "邠心vbe",
   "private": true,
   "scripts": {
     "dev": "vue-cli-service serve",
