@@ -26,7 +26,10 @@
       <div class="bullshit">
         <div class="bullshit__oops">OOPS!</div>
         <div class="bullshit__headline">{{ message }}</div>
-        <div class="link-type" style="display: inline-block;" @click="backHome">Back to Home</div>
+        <div class="flexc">
+          <div class="link-type" @click="backHome">Back to Home</div>
+          <div class="link-type" @click="switchAccount">Switch Account</div>
+        </div>
       </div>
     </div>
   </div>
@@ -44,6 +47,12 @@ export default {
     backHome() {
       this.$router.replace({
         path: "/"
+      })
+    },
+    switchAccount() {
+      this.$store.dispatch("user/logout").then(res => {
+        this.$store.commit('permission/SET_ROUTES', []);
+        this.$router.push({ path: "/login" });
       })
     }
   }
@@ -220,7 +229,7 @@ export default {
       color: #222;
       font-weight: bold;
       opacity: 0;
-      margin-bottom: 10px;
+      margin-bottom: 20px;
       animation-name: slideUp;
       animation-duration: 0.5s;
       animation-delay: 0.1s;
@@ -272,5 +281,8 @@ export default {
     height: 80vh;
     padding: 10vh 0;
   }
+}
+.link-type + .link-type {
+  margin-left: 20px;
 }
 </style>

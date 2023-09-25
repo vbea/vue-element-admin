@@ -41,6 +41,7 @@ module.exports = {
    */
   errorLog: 'production',
   /**
-   * 可在utils/permission中修改控制访问页面的字段名RESOURCE_KEY
+   * 指示是否需要缓存路由页面
    */
+  cachedViews: []
 }

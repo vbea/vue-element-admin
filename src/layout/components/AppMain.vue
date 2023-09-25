@@ -9,11 +9,12 @@
 </template>
 
 <script>
+import setting from '../../settings.js';
 export default {
   name: 'AppMain',
   computed: {
     cachedViews() {
-      return undefined
+      return setting.cachedViews
     },
     key() {
       return this.$route.path
