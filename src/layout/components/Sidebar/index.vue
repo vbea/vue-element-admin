@@ -3,27 +3,34 @@
     <logo
       v-if="showLogo"
       :collapse="isCollapse" />
-      <el-scrollbar wrap-class="scrollbar-wrapper">
-        <el-menu
-          :default-active="activeMenu"
-          :collapse="isCollapse"
-          :background-color="variables.menuBg"
-          :text-color="variables.menuText"
-          :unique-opened="false"
-          :active-text-color="variables.menuActiveText"
-          :collapse-transition="false"
-          @select="onMenuItemSelect"
-          mode="vertical"
-        >
-          <sidebar-item
-            v-for="route in permission_routes"
-            :key="route.path"
-            :item="route"
-            :activeMenu="activeMenu"
-            :selectedItemIndex="selectedItemIndex"
-            :base-path="route.path" />
-        </el-menu>
-      </el-scrollbar>
+    <el-scrollbar wrap-class="scrollbar-wrapper">
+      <el-menu
+        :default-active="activeMenu"
+        :collapse="isCollapse"
+        :background-color="variables.menuBg"
+        :text-color="variables.menuText"
+        :unique-opened="false"
+        :active-text-color="variables.menuActiveText"
+        :collapse-transition="false"
+        @select="onMenuItemSelect"
+        mode="vertical">
+
+        <sidebar-item
+          v-for="route in permission_routes"
+          :key="route.path"
+          :item="route"
+          :activeMenu="activeMenu"
+          :selectedItemIndex="selectedItemIndex"
+          :base-path="route.path" />
+      </el-menu>
+    </el-scrollbar>
+    <div
+      @click="toggleSideBar"
+      class="dev-toggle-icon"
+      :class="{open: sidebar.opened}"
+      v-if="isDev && !showHamburger">
+      <i class="el-icon-arrow-right"></i>
+    </div>
   </div>
 </template>
 
@@ -34,13 +41,15 @@ import SidebarItem from './SidebarItem'
 import variables from '@/styles/variables.scss'
 import { getAuthRoutes } from '@/utils/auth'
 import permission from '@/utils/permission'
+import setting from '../../../settings.js'
 
 export default {
   components: { SidebarItem, Logo },
   data() {
     return {
       selectedItemIndex: '',
-      authRoutesList: []
+      authRoutesList: [],
+      showHamburger: setting.showHamburger
     }
   },
   created() {
@@ -49,10 +58,12 @@ export default {
       this.$store.commit('permission/SET_ROUTES', this.authRoutesList);
     }
     //this.filterRoutes(this.$router.options.routes)
-    
     //this.selectedItemIndex = this.activeMenu
   },
   methods: {
+    toggleSideBar() {
+      this.$store.dispatch('app/toggleSideBar')
+    },
     onMenuItemSelect(index) {
       this.selectedItemIndex = index
     }
@@ -79,7 +90,26 @@ export default {
     },
     isCollapse() {
       return !this.sidebar.opened
+    },
+    isDev() {
+      return (process.env.NODE_ENV == 'development');
     }
   }
 }
 </script>
+<style lang="scss">
+  .dev-toggle-icon {
+    left: 0;
+    bottom: 0;
+    color: #333;
+    padding: 18px;
+    font-size: 20px;
+    cursor: pointer;
+    text-align: center;
+    position: absolute;
+    transition: all .3s;
+    &.open {
+      transform: rotate(180deg);
+    }
+  }
+</style>

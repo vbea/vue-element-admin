@@ -4,7 +4,8 @@
       id="hamburger-container"
       :is-active="sidebar.opened"
       class="hamburger-container"
-      @toggleClick="toggleSideBar" />
+      @toggleClick="toggleSideBar"
+      v-if="showHamburger"/>
 
     <breadcrumb
       id="breadcrumb-container"
@@ -64,7 +65,8 @@
       </div>
       <div
         class="right-menu-image"
-        @click="logout">
+        @click="logout"
+        title="Log out">
         <i class="el-icon-switch-button bold"></i>
       </div>
     </div>
@@ -115,6 +117,7 @@ import { mapGetters } from 'vuex'
 import Breadcrumb from '@/components/Breadcrumb'
 import Hamburger from '@/components/Hamburger'
 import {getUserName, getEmail, getRoleName} from '../../utils/auth.js'
+import setting from '../../settings.js'
 
 export default {
   components: {
@@ -134,7 +137,8 @@ export default {
       username: 'Admin',
       email: '',
       role: '',
-      colorfulAvatar: true
+      colorfulAvatar: true,
+      showHamburger: setting.showHamburger
     }
   },
   created() {
