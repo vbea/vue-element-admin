@@ -1,5 +1,4 @@
 import { asyncRoutes, resetRouter, constantRoutes } from '@/router'
-import { getAuthRoutes } from '@/utils/auth'
 import permission from '@/utils/permission'
 
 /**

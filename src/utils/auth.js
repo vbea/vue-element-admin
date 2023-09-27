@@ -1,6 +1,6 @@
 import Cookies from 'js-cookie'
 import { Base64 } from 'js-base64';
-import settings from '@/settings'
+import settings from '@/settings';
 
 const TokenKey = settings.projectName + '-AccessToken'
 const AuthRoutesKey = settings.projectName + '-OpenResource'
@@ -20,12 +20,28 @@ export function removeToken() {
   return Cookies.remove(TokenKey)
 }
 
-export function getAuthRoutes() {
+export function getAuthRoutes(back) {
+  if (settings.enableOnlineAuth) {
+    const apiUser = require('../http/apiUser').default;
+    apiUser.refreshAuthMenu().then(res => {
+      if (res.data) {
+        setAuthRoutes(res.data)
+        back(res.data)
+      }
+    }).catch(err => {
+      back(getAuthRoutesLocale())
+    })
+  } else {
+    back(getAuthRoutesLocale())
+  }
+}
+
+export function getAuthRoutesLocale() {
   const value = localStorage.getItem(AuthRoutesKey)
   if (value) {
     return JSON.parse(Base64.decode(value))
   }
-  return ''
+  return []
 }
 
 export function removeAuthRoutes() {

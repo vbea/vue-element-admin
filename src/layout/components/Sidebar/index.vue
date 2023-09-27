@@ -13,8 +13,8 @@
         :active-text-color="variables.menuActiveText"
         :collapse-transition="false"
         @select="onMenuItemSelect"
-        mode="vertical">
-
+        mode="vertical"
+      >
         <sidebar-item
           v-for="route in permission_routes"
           :key="route.path"
@@ -53,12 +53,7 @@ export default {
     }
   },
   created() {
-    this.authRoutesList = getAuthRoutes()
-    if (!this.permission_routes.length) {
-      this.$store.commit('permission/SET_ROUTES', this.authRoutesList);
-    }
-    //this.filterRoutes(this.$router.options.routes)
-    //this.selectedItemIndex = this.activeMenu
+    
   },
   methods: {
     toggleSideBar() {
@@ -71,7 +66,7 @@ export default {
   computed: {
     ...mapGetters([
       'permission_routes',
-      'sidebar'
+      'sidebar',
     ]),
     activeMenu() {
       const route = this.$route

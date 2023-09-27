@@ -33,8 +33,12 @@ module.exports = {
    */
   sidebarLogo: true,
   showHamburger: true,
-
-
+  /**
+   * 是否启用在线校验路由
+   * - true 每次刷新都将获取最新的路由权限
+   * - false 每次刷新获取本地缓存的路由权限
+   */
+  enableOnlineAuth: false,
   /**
    * @type {string | array} 'production' | ['production', 'development']
    * @description Need show err logs component.

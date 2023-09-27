@@ -5,7 +5,7 @@
 <script>
 import store from '@/store'
 import permission from '@/utils/permission.js'
-import { getAuthRoutes } from '@/utils/auth.js'
+import { getAuthRoutesLocale } from '@/utils/auth.js'
 export default {
   data() {
     return {
@@ -18,7 +18,7 @@ export default {
   methods: {
     checkPermission() {
       let path = '/dashboard'
-      const routes = getAuthRoutes();
+      const routes = getAuthRoutesLocale();
       if (routes.length > 0) {
         let validPath = false;
         for (let _route of routes) {
