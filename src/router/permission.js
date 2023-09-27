@@ -29,7 +29,7 @@ function handleRoute(to, routes, next) {
       // if is logged in, redirect to the home page
       next({ path: '/' })
       NProgress.done() // hack: https://github.com/PanJiaChen/vue-element-admin/pull/2939
-    } else if (!validPath && whiteList.indexOf(to.path) == -1) {
+    } else if (!validPath) {
       next({ path: '/404' })
       NProgress.done()
     } else {
@@ -56,24 +56,27 @@ router.beforeEach(async(to, from, next) => {
 
   // set page title
   document.title = getPageTitle(to.meta.title)
-
-  // determine whether the user has logged in
-  //console.log("权限控制", to, from);
-  const routes = store.getters.resources
-  if (routes.length == 0) {
-    getAuthRoutes(rs => {
-      if (rs && rs.length) {
-        store.commit("user/SET_RESOURCES", rs);
-        store.commit('permission/SET_ROUTES', rs);
-        routes.push(...rs);
-        handleRoute(to, routes, next);
-      } else {
-        next({ path: '/404' })
-        NProgress.done()
-      }
-    });
+  if (whiteList.indexOf(to.path) >= 0) {
+    next();
   } else {
-    handleRoute(to, routes, next);
+    // determine whether the user has logged in
+    //console.log("权限控制", to, from);
+    const routes = store.getters.resources
+    if (routes.length == 0) {
+      getAuthRoutes(rs => {
+        if (rs && rs.length) {
+          store.commit("user/SET_RESOURCES", rs);
+          store.commit('permission/SET_ROUTES', rs);
+          routes.push(...rs);
+          handleRoute(to, routes, next);
+        } else {
+          next({ path: '/404' })
+          NProgress.done()
+        }
+      });
+    } else {
+      handleRoute(to, routes, next);
+    }
   }
 })
 

@@ -5,7 +5,7 @@
 <script>
 import store from '@/store'
 import permission from '@/utils/permission.js'
-import { getAuthRoutesLocale } from '@/utils/auth.js'
+import { getToken, getAuthRoutesLocale } from '@/utils/auth.js'
 export default {
   data() {
     return {
@@ -13,7 +13,14 @@ export default {
     }
   },
   created() {
-    this.checkPermission()
+    let hasToken = getToken()
+    if (hasToken) {
+      this.checkPermission()
+    } else {
+      this.$router.push({
+        path: "/login"
+      })
+    }
   },
   methods: {
     checkPermission() {

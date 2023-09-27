@@ -31,7 +31,7 @@ export default {
    * 刷新用户权限菜单
    */
   refreshAuthMenu() {
-    return return new Promise((resolve, reject) => {
+    return new Promise((resolve, reject) => {
       resolve(permission.getTestResourceList())
     })
   }
