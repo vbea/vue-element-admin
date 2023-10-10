@@ -11,11 +11,17 @@ export const constantRoutes = [
   },
   {
     path: '/404',
-    component: () => import('@/views/error-page/404.vue')
+    component: () => import('@/views/error-page/404.vue'),
+    meta: {
+      title: "Error"
+    }
   },
   {
     path: '/login',
-    component: () => import('@/views/login/index')
+    component: () => import('@/views/login/index'),
+    meta: {
+      title: "Login"
+    }
   },
   {
     path: '/redirect',
