@@ -105,12 +105,33 @@
 .el-button.el-button--accent {
   color: $buttonText;
   background: $--color-accent;
+  border-color: rgba($--color-accent, .9);
   &.is-disabled {
     color: $buttonText;
+    border-color: rgba($--color-accent, .5);
     background-color: rgba($--color-accent, .5);
   }
   &:not(.is-disabled):hover {
     color: $buttonText;
+    border-color: rgba($--color-accent, .7);
     background-color: rgba($--color-accent, .7);
+  }
+
+.el-button.el-button--cancel {
+  color: #333;
+  background: #FFFFFF;
+  border: 1px solid rgba($--color-primary, .8);
+  &.is-disabled {
+    color: #ccc;
+    border-color: #d0d0d0;
+    background: #d0d0d0;
+  }
+  &:not(.is-disabled):hover {
+    color: #333;
+    border-color: rgba($--color-primary, 0.9);
+    background: rgba($--color-primary, 0.1);
+  }
+  span {
+    color: #333;
   }
 }
