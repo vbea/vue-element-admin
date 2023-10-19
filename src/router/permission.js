@@ -64,13 +64,18 @@ router.beforeEach(async(to, from, next) => {
     const routes = store.getters.resources
     if (routes.length == 0) {
       getAuthRoutes(rs => {
-        if (rs && rs.length) {
-          store.commit("user/SET_RESOURCES", rs);
-          store.commit('permission/SET_ROUTES', rs);
-          routes.push(...rs);
-          handleRoute(to, routes, next);
+        if (rs) {
+          if (rs.length) {
+            store.commit("user/SET_RESOURCES", rs);
+            store.commit('permission/SET_ROUTES', rs);
+            routes.push(...rs);
+            handleRoute(to, routes, next);
+          } else {
+            next({ path: '/404' })
+            NProgress.done()
+          }
         } else {
-          next({ path: '/404' })
+          next({ path: '/login' })
           NProgress.done()
         }
       });

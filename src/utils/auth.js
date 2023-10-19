@@ -27,9 +27,11 @@ export function getAuthRoutes(back) {
       if (res.data) {
         setAuthRoutes(res.data)
         back(res.data)
+      } else {
+        back([])
       }
     }).catch(err => {
-      back(getAuthRoutesLocale())
+      back(false)
     })
   } else {
     back(getAuthRoutesLocale())
